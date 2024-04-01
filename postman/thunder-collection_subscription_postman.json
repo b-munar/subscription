@@ -1,0 +1,26 @@
+{
+    "info": {
+        "_postman_id": "00341012-7beb-41ec-9c59-9ae4abb4e917",
+        "name": "subscription",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "list subscription",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "localhost:6450/subscription",
+                    "path": [
+                        "subscription"
+                    ],
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "6450"
+                }
+            }
+        }
+    ]
+}
