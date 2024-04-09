@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: service-subscription
+  annotations:
+    cloud.google.com/backend-config: '{"default": "subscription-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: subscription
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 31022

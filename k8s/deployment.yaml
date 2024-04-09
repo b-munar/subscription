@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subscription
+  labels:
+    app: subscription
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subscription
+  template:
+    metadata:
+      labels:
+        app: subscription
+    spec:
+      containers:
+        - name: subscription
+          image: my-app-image
+          resources:
+            limits:
+              memory: "60Mi"
+              cpu: "0.08"
+            requests:
+              memory: "60Mi"
+              cpu: "0.08"
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
+
+---
+
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: subscription-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 80
+    type: HTTP
+    requestPath: /subscription/ping
