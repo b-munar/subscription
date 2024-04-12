@@ -16,6 +16,6 @@ type SubscriptionWithoutId struct {
 }
 
 type Subscription struct {
-	UserId uuid.UUID `gorm:"primaryKey;type:uuid;" json:"user" validate:"required"`
+	UserId uuid.UUID `gorm:"type:uuid;" json:"user" validate:"required"`
 	SubscriptionWithoutId
 }

@@ -44,8 +44,17 @@ func main() {
 	})
 
 	app.Get("/subscription/list", func(c *fiber.Ctx) error {
+		type SomeStruct struct {
+			Subscription []Sub `json:"subscriptions"`
+			Activate     bool  `json:"activate"`
+		}
 
-		return c.Status(200).JSON(fiber.Map{"subscription": SubJson})
+		data := SomeStruct{
+			Subscription: SubJson,
+			Activate:     false,
+		}
+
+		return c.Status(200).JSON(fiber.Map{"subscription": data})
 	})
 
 	app.Use(middleware.New(middleware.Config{}))
@@ -80,13 +89,31 @@ func main() {
 
 		db := database.DB
 
+		OldSubscription := model.Subscription{UserId: details.ID}
+
+		result_1 := db.Find(&OldSubscription)
+
+		if result_1.RowsAffected > 0 {
+			return c.Status(400).JSON(fiber.Map{"message": "ya existe"})
+		}
+
 		result := db.Create(&Subscription)
 
 		if result.Error != nil {
 			return c.Status(400).JSON(fiber.Map{"message": "error in creation"})
 		}
 
-		return c.Status(201).JSON(fiber.Map{"subscription": Subscription.SubscriptionWithoutId})
+		type SomeSomeStruct struct {
+			Subscription model.SubscriptionWithoutId `json:"subscription"`
+			Activate     bool                        `json:"activate"`
+		}
+
+		data := SomeSomeStruct{
+			Subscription: Subscription.SubscriptionWithoutId,
+			Activate:     true,
+		}
+
+		return c.Status(201).JSON(fiber.Map{"subscription": data})
 	})
 
 	app.Listen(":80")
