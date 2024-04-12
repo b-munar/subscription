@@ -8,9 +8,9 @@ import (
 
 type SubscriptionWithoutId struct {
 	Id        uuid.UUID `gorm:"primaryKey;type:uuid;" json:"id"`
-	Cost      float32   `json:"cost" validate:"required"`
+	Price     float32   `json:"price" validate:"required"`
 	Frequency int       `json:"frequency"`
-	Plan      string    `json:"plan"`
+	Plan      string    `json:"plan" validate:"required"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }

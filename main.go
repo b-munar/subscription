@@ -2,10 +2,14 @@ package main
 
 import (
 	"subscription/database"
+	"subscription/middleware"
+	"subscription/model"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/google/uuid"
 )
 
 func main() {
@@ -39,9 +43,50 @@ func main() {
 		return c.Status(200).SendString("ping")
 	})
 
-	app.Get("/subscription", func(c *fiber.Ctx) error {
+	app.Get("/subscription/list", func(c *fiber.Ctx) error {
 
 		return c.Status(200).JSON(fiber.Map{"subscription": SubJson})
+	})
+
+	app.Use(middleware.New(middleware.Config{}))
+
+	app.Post("/subscription", func(c *fiber.Ctx) error {
+
+		user := c.Locals("requestAuth")
+
+		details, _ := user.(middleware.DeserializeUser)
+
+		Subscription := new(model.Subscription)
+
+		if err := c.BodyParser(Subscription); err != nil {
+			return err
+		}
+
+		Subscription.Id = uuid.New()
+
+		Subscription.UserId = details.ID
+
+		var validate *validator.Validate
+
+		validate = validator.New(validator.WithRequiredStructEnabled())
+
+		err1 := validate.Struct(Subscription)
+
+		if err1 != nil {
+
+			return c.Status(400).JSON(fiber.Map{"message": "field validation error"})
+
+		}
+
+		db := database.DB
+
+		result := db.Create(&Subscription)
+
+		if result.Error != nil {
+			return c.Status(400).JSON(fiber.Map{"message": "error in creation"})
+		}
+
+		return c.Status(201).JSON(fiber.Map{"subscription": Subscription.SubscriptionWithoutId})
 	})
 
 	app.Listen(":80")
