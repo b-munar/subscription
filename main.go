@@ -89,9 +89,15 @@ func main() {
 
 		db := database.DB
 
-		OldSubscription := model.Subscription{UserId: details.ID}
+		// OldSubscription := model.Subscription{UserId: details.ID}
 
-		result_1 := db.Find(&OldSubscription)
+		// result_1 := db.Find(&OldSubscription)
+
+		var OldSubscription model.Subscription
+
+		// result_1 := db.Where("user_id = ?", details.ID).Find(&OldSubscription)
+
+		result_1 := db.First(&OldSubscription, "user_id = ?", details.ID)
 
 		if result_1.RowsAffected > 0 {
 			return c.Status(400).JSON(fiber.Map{"message": "ya existe"})
@@ -124,9 +130,11 @@ func main() {
 
 		db := database.DB
 
-		OldSubscription := model.Subscription{UserId: details.ID}
+		var OldSubscription model.Subscription
 
-		result_1 := db.Find(&OldSubscription)
+		// result_1 := db.Where("user_id = ?", details.ID).Find(&OldSubscription)
+
+		result_1 := db.First(&OldSubscription, "user_id = ?", details.ID)
 
 		if result_1.RowsAffected > 0 {
 			type SomeSomeStruct struct {
