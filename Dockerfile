@@ -6,10 +6,10 @@ WORKDIR /usr/src
 
 COPY . .
 
-RUN go build -o fiber-go .
+RUN go build -o subscription .
 
 FROM debian:bullseye-slim
 
-COPY --from=builder /usr/src/fiber-go /usr/local/bin/fiber-go
+COPY --from=builder /usr/src/subscription /usr/local/bin/subscription
 
-CMD ["fiber-go"]
+CMD ["subscription"]

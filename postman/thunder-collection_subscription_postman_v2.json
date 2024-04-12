@@ -1,0 +1,88 @@
+{
+    "info": {
+        "_postman_id": "7b175f39-7ea9-48b6-a5de-f48c132a21b6",
+        "name": "subscription",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "list subscription",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "localhost:6450/subscription/list",
+                    "path": [
+                        "subscription",
+                        "list"
+                    ],
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "6450"
+                }
+            }
+        },
+        {
+            "name": "create subscription",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "localhost:6450/subscription",
+                    "path": [
+                        "subscription"
+                    ],
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "6450"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "    {\n      \"plan\": \"premium\",\n      \"price\": 39\n    }"
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOWEzYWQ3OC02ZDNjLTQ2ZTMtOWM0Mi04NTdjYTNlYzUyMjAiLCJpYXQiOjE3MTI5MzgwNjksImV4cCI6MTcxMjk0ODg2OX0.sPuuyzGV2peMM9bb4gGM3QHRNSsTmVWbzw0eaUajQEM",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "get subscription or list subscription",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "localhost:6450/subscription",
+                    "path": [
+                        "subscription"
+                    ],
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "6450"
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOWEzYWQ3OC02ZDNjLTQ2ZTMtOWM0Mi04NTdjYTNlYzUyMjAiLCJpYXQiOjE3MTI5MzgwNjksImV4cCI6MTcxMjk0ODg2OX0.sPuuyzGV2peMM9bb4gGM3QHRNSsTmVWbzw0eaUajQEM",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
