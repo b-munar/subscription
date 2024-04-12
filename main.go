@@ -116,6 +116,47 @@ func main() {
 		return c.Status(201).JSON(fiber.Map{"subscription": data})
 	})
 
+	app.Get("/subscription", func(c *fiber.Ctx) error {
+
+		user := c.Locals("requestAuth")
+
+		details, _ := user.(middleware.DeserializeUser)
+
+		db := database.DB
+
+		OldSubscription := model.Subscription{UserId: details.ID}
+
+		result_1 := db.Find(&OldSubscription)
+
+		if result_1.RowsAffected > 0 {
+			type SomeSomeStruct struct {
+				Subscription model.SubscriptionWithoutId `json:"subscription"`
+				Activate     bool                        `json:"activate"`
+			}
+
+			data := SomeSomeStruct{
+				Subscription: OldSubscription.SubscriptionWithoutId,
+				Activate:     true,
+			}
+
+			return c.Status(200).JSON(fiber.Map{"subscription": data})
+		} else {
+
+			type SomeStruct struct {
+				Subscription []Sub `json:"subscriptions"`
+				Activate     bool  `json:"activate"`
+			}
+
+			data := SomeStruct{
+				Subscription: SubJson,
+				Activate:     false,
+			}
+
+			return c.Status(200).JSON(fiber.Map{"subscription": data})
+
+		}
+
+	})
 	app.Listen(":80")
 
 }
